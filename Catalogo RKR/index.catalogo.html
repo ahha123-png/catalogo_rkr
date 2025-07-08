@@ -1,0 +1,891 @@
+<!--
+  Catálogo web desarrollado por Russiel Russceky López Martinez
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Abarrotes RAYAKA - RAYA</title>
+    <!-- Metadatos Open Graph y Twitter Card para compartir en redes sociales -->
+    <meta property="og:title" content="Catálogo de Abarrotes Rayaka Raya" />
+    <meta property="og:description" content="¡Haz tu pedido en línea! Catálogo profesional de abarrotes, fácil de compartir y pedir por WhatsApp. Productos, precios y entrega a domicilio." />
+    <meta property="og:image" content="https://i.imgur.com/0Q9QZ0T.png" />
+    <meta property="og:url" content="" id="metaOgUrl" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Catálogo de Abarrotes Rayaka Raya" />
+    <meta name="twitter:description" content="¡Haz tu pedido en línea! Catálogo profesional de abarrotes, fácil de compartir y pedir por WhatsApp." />
+    <meta name="twitter:image" content="https://i.imgur.com/0Q9QZ0T.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              mainred: '#e53935',      // Rojo vivo elegante
+              mainwhite: '#fff',
+              darkred: '#ad1457',      // Magenta profundo
+              lightred: '#ffd6e0',     // Rosa pastel
+              graybg: '#f5f7fa',       // Gris claro elegante
+              accent: '#c51162',       // Magenta vibrante
+              accent2: '#ff80ab',      // Rosa acentuado
+              textmain: '#ad1457',     // Magenta profundo para textos
+              textsec: '#e53935',      // Rojo vivo para textos secundarios
+              whatsappgreen: '#43e97b',// Verde WhatsApp degradado
+              whatsappgreen2: '#38f9d7',
+            },
+          },
+        },
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 60%, #ff80ab 100%);
+        }
+        .product-card {
+            transition: box-shadow 0.3s, transform 0.3s;
+            border-radius: 1.2rem;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 2px 16px #e5393522;
+            border: 1.5px solid #ff80ab;
+        }
+        .product-card:hover {
+            box-shadow: 0 8px 32px #e5393533;
+            transform: translateY(-6px) scale(1.04);
+        }
+        .discount-badge {
+            position: absolute;
+            top: 0.7rem;
+            right: 0.7rem;
+            background-color: #e53935;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 1rem 0.5rem 1rem 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            box-shadow: 0 2px 8px #e5393533;
+        }
+        .whatsapp-btn {
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+            color: #fff !important;
+            font-weight: 600;
+            border-radius: 0.7rem;
+            padding: 0.5rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px #43e97b33;
+            transition: background 0.2s, transform 0.2s;
+            border: none;
+            outline: none;
+        }
+        .whatsapp-btn:hover {
+            background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%);
+            transform: scale(1.05);
+            color: #fff !important;
+        }
+        .modal-bg {
+            background: rgba(0,0,0,0.25);
+            backdrop-filter: blur(2px);
+        }
+        .input-label {
+            font-weight: 600;
+            color: #ad1457;
+            margin-bottom: 0.2rem;
+            display: block;
+        }
+        .input-field {
+            border-radius: 0.6rem;
+            border: 1.5px solid #ff80ab;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            background: #fff;
+            color: #ad1457;
+            transition: border 0.2s;
+        }
+        .input-field:focus {
+            border: 2px solid #e53935;
+            outline: none;
+        }
+        .add-btn {
+            background: linear-gradient(90deg, #e53935 0%, #c51162 100%);
+            color: #fff;
+            font-weight: 700;
+            border-radius: 0.7rem;
+            padding: 0.5rem 1.5rem;
+            box-shadow: 0 2px 8px #e5393533;
+            transition: background 0.2s, transform 0.2s;
+            border: none;
+            outline: none;
+        }
+        .add-btn:hover {
+            background: linear-gradient(90deg, #c51162 0%, #e53935 100%);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-graybg min-h-screen text-darkred">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-12">
+            <!-- Banner de bienvenida y compartir -->
+            <div class="mb-4 p-4 rounded-xl bg-lightred/60 border border-accent2 flex flex-col md:flex-row items-center justify-between gap-2 shadow animate__animated animate__fadeInDown">
+                <div class="flex-1 text-mainred text-lg font-semibold flex flex-col md:flex-row items-center gap-2">
+                    <span>¡Comparte este catálogo y haz tu pedido en línea!</span>
+                    <button id="shareBtn" class="add-btn flex items-center gap-1 px-4 py-2 text-base mt-2 md:mt-0" style="background:linear-gradient(90deg,#43e97b 0%,#38f9d7 100%);color:#fff;">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke="#fff" stroke-width="2" d="M15 8a3 3 0 11-6 0 3 3 0 016 0zm-6 8a6 6 0 1112 0H3a6 6 0 016-6z"/></svg>
+                        Compartir Catálogo
+                    </button>
+                </div>
+                <button id="adminLoginBtn" class="add-btn flex items-center gap-1 px-4 py-2 text-base mt-2 md:mt-0 bg-mainred" style="background:linear-gradient(90deg,#e53935 0%,#c51162 100%);color:#fff;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke="#fff" stroke-width="2" d="M12 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm0 2c-2.21 0-6 1.119-6 3.333V19h12v-2.667C18 14.119 14.21 13 12 13z"/></svg>
+                    Administrar
+                </button>
+            </div>
+        <script>
+        // --- Control de administrador robusto y persistente ---
+        let isAdmin = false;
+        const adminPassword = 'RKR2025';
+        function setAdminMode(state) {
+            isAdmin = state;
+            localStorage.setItem('isAdmin', isAdmin ? '1' : '0');
+            const adminLoginBtn = document.getElementById('adminLoginBtn');
+            const openModalBtn = document.getElementById('openModalBtn');
+            if (adminLoginBtn) adminLoginBtn.textContent = isAdmin ? 'Salir de Admin' : 'Administrar';
+            if (openModalBtn) openModalBtn.style.display = isAdmin ? '' : 'none';
+            if (typeof renderProducts === 'function') renderProducts(products);
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            isAdmin = localStorage.getItem('isAdmin') === '1';
+            setAdminMode(isAdmin);
+            const adminLoginBtn = document.getElementById('adminLoginBtn');
+            if (adminLoginBtn) {
+                adminLoginBtn.onclick = function() {
+                    if (isAdmin) {
+                        setAdminMode(false);
+                        alert('Modo administrador desactivado.');
+                        return;
+                    }
+                    const pass = prompt('Introduce la contraseña de administrador:');
+                    if (pass === adminPassword) {
+                        setAdminMode(true);
+                        alert('Modo administrador activado. Ahora puedes agregar, editar y eliminar productos.');
+                    } else {
+                        alert('Contraseña incorrecta.');
+                    }
+                };
+            }
+        });
+        </script>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-mainred tracking-tight drop-shadow" style="letter-spacing: 0.04em;">
+                        Abarrotes <span class="text-accent">Rayaka Raya</span>
+                    </h1>
+                    <p class="text-accent2 text-lg font-medium italic">Tu tienda de abarrotes de confianza</p>
+                    <p class="text-xs text-gray-500 mt-2">Desarrollado por <span class="font-bold">Russiel Russceky López Martinez</span></p>
+                </div>
+                <div>
+                    <div class="flex items-center justify-center">
+                        <picture>
+                            <source srcset="../img/Logo_RKR.png" type="image/png">
+                            <img src="../img/Logo_RKR.png" alt="Logo de Abarrotes Rayaka Raya" loading="eager" width="150" height="150" style="max-width:150px;max-height:150px;min-width:80px;min-height:80px;object-fit:contain;background:#fff;border-radius:1rem;box-shadow:0 4px 24px 0 #d32f2f33;border:3px solid #d32f2f;padding:0.5rem;display:block;">
+                        </picture>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <div class="w-full md:w-1/2">
+                    <input type="text" id="searchInput" placeholder="Buscar productos..." class="w-full px-4 py-2 border border-accent2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent2 bg-accent2 text-darkred placeholder:text-darkred/60 shadow">
+                </div>
+                <button id="openModalBtn" class="add-btn mt-4 md:mt-0 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke="#fff" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Agregar Producto
+                </button>
+                <a href="https://wa.me/50557021915" target="_blank" class="whatsapp-btn mt-4 md:mt-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path fill="#fff" d="M12 2C6.477 2 2 6.477 2 12c0 1.989.583 3.84 1.583 5.4L2 22l4.746-1.553A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+                        <path fill="#25d366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.767.967-.94 1.166-.173.198-.347.223-.644.075-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.208-.242-.58-.487-.501-.669-.51-.173-.007-.372-.009-.571-.009-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.075.149.198 2.099 3.205 5.077 4.367.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.007-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                    </svg>
+                    Pedir por WhatsApp
+                </a>
+            </div>
+        </header>
+
+        <!-- Modal para agregar producto -->
+        <div id="modalBg" class="fixed inset-0 z-40 hidden modal-bg flex items-center justify-center">
+            <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md relative animate__animated animate__fadeInDown">
+                <button id="closeModalBtn" class="absolute top-3 right-3 text-mainred text-2xl font-bold hover:text-accent transition">&times;</button>
+                <h2 class="text-2xl font-bold text-mainred mb-4">Agregar Producto</h2>
+                <form id="addProductForm" autocomplete="off">
+                    <label class="input-label" for="productName">Nombre</label>
+                    <input class="input-field" id="productName" required maxlength="40" placeholder="Ej: Café Oro" />
+
+                    <label class="input-label" for="productDesc">Descripción</label>
+                    <input class="input-field" id="productDesc" required maxlength="60" placeholder="Ej: Café molido 250g" />
+
+                    <label class="input-label" for="productCategory">Categoría</label>
+                    <select class="input-field" id="productCategory" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="alimentos">Alimentos</option>
+                        <option value="bebidas">Bebidas</option>
+                        <option value="limpieza">Limpieza</option>
+                        <option value="cuidado-personal">Cuidado Personal</option>
+                        <option value="Chiverias">Chiverias</option>
+                    </select>
+
+                    <label class="input-label" for="productPrice">Precio (C$)</label>
+                    <input class="input-field" id="productPrice" type="number" min="0" step="0.01" required placeholder="Ej: 25.00" />
+
+                    <label class="input-label" for="productDiscount">Descuento (%)</label>
+                    <input class="input-field" id="productDiscount" type="number" min="0" max="90" step="1" value="0" />
+
+                    <label class="input-label" for="productImage">Imagen (URL opcional)</label>
+                    <input class="input-field" id="productImage" type="url" placeholder="https://ejemplo.com/imagen.jpg" style="margin-bottom:0.5rem;" />
+                    <label class="input-label" for="productImageFile" style="margin-top:0.5rem;">Imagen local (JPG, PNG, máx 1MB)</label>
+                    <input class="input-field" id="productImageFile" type="file" accept="image/png, image/jpeg" style="padding:0.3rem 1rem;" />
+
+                    <hr class="my-3">
+                    <label class="input-label" for="clientAddress">Dirección de entrega</label>
+                    <input class="input-field" id="clientAddress" maxlength="120" placeholder="Ej: De la iglesia 2c al sur, casa azul, Managua" />
+
+                    <button type="submit" class="add-btn w-full mt-2">Agregar al Catálogo</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de productos -->
+        <main>
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-mainred mb-6">Nuestros Productos</h2>
+                <!-- Filtro de categorías -->
+                <div class="flex overflow-x-auto gap-2 mb-6 pb-2">
+                    <button class="category-filter px-4 py-2 bg-mainred text-mainwhite rounded-full text-sm font-medium whitespace-nowrap shadow">Todos</button>
+                    <button class="category-filter px-4 py-2 bg-accent2 hover:bg-mainred hover:text-mainwhite rounded-full text-sm font-medium whitespace-nowrap text-mainred">Alimentos</button>
+                    <button class="category-filter px-4 py-2 bg-accent2 hover:bg-mainred hover:text-mainwhite rounded-full text-sm font-medium whitespace-nowrap text-mainred">Bebidas</button>
+                    <button class="category-filter px-4 py-2 bg-accent2 hover:bg-mainred hover:text-mainwhite rounded-full text-sm font-medium whitespace-nowrap text-mainred">Limpieza</button>
+                    <button class="category-filter px-4 py-2 bg-accent2 hover:bg-mainred hover:text-mainwhite rounded-full text-sm font-medium whitespace-nowrap text-mainred">Cuidado Personal</button>
+                    <button class="category-filter px-4 py-2 bg-accent2 hover:bg-mainred hover:text-mainwhite rounded-full text-sm font-medium whitespace-nowrap text-mainred">Chiverias</button>
+                </div>
+                <!-- Cuadrícula de productos -->
+                <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <div class="text-center py-8 text-accent2/80" id="noProductsMessage">
+                        No hay productos registrados. Agrega tu primer producto haciendo clic en "Agregar Producto".
+                    </div>
+                </div>
+            </div>
+            <!-- Botón flotante para abrir carrito -->
+            <button id="openCartBtn" class="fixed right-4 bottom-4 z-40 bg-mainred text-mainwhite rounded-full shadow-lg px-6 py-3 font-bold flex items-center gap-2 hover:bg-accent2 hover:text-mainred transition animate__animated animate__fadeInUp">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke="#fff" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007.5 17h9a1 1 0 00.85-1.53L17 13M7 13V6h13"/></svg>
+                Ver Pedido (<span id="cartCount">0</span>)
+            </button>
+            <!-- Panel lateral de carrito -->
+            <div id="cartSection" class="fixed top-0 right-0 h-full w-full max-w-md z-50 bg-white/95 rounded-l-2xl shadow-2xl border-l-2 border-accent2 p-4 hidden animate__animated animate__fadeInRight flex flex-col">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-xl font-bold text-mainred">Factura / Pedido</h3>
+                    <button id="closeCartBtn" class="text-mainred text-3xl font-bold hover:text-accent transition">&times;</button>
+                </div>
+                <div id="cartList" class="mb-2 max-h-96 overflow-y-auto flex-1"></div>
+                <div class="flex justify-between items-center font-semibold text-mainred mb-2">
+                    <span>Total:</span>
+                    <span id="cartTotal">C$0.00</span>
+                </div>
+                <button id="sendCartBtn" class="whatsapp-btn w-full mt-2">Enviar pedido por WhatsApp</button>
+            </div>
+            <!-- Modal elegante para dirección de entrega -->
+            <div id="addressModalBg" class="fixed inset-0 z-50 hidden modal-bg flex items-center justify-center">
+                <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md relative animate__animated animate__fadeInDown border-2 border-accent2">
+                    <button id="closeAddressModalBtn" class="absolute top-3 right-3 text-mainred text-2xl font-bold hover:text-accent transition">&times;</button>
+                    <h2 class="text-2xl font-extrabold text-mainred mb-2 text-center" style="letter-spacing:0.04em;">Dirección de Entrega</h2>
+                    <p class="text-accent2 text-center mb-4">Por favor, ingresa la dirección donde deseas recibir tu pedido.<br><span class="text-xs text-gray-500">(Ejemplo: De la iglesia 2c al sur, casa azul, Managua)</span></p>
+                    <input id="addressInputModal" class="input-field border-2 border-accent2 focus:border-mainred text-lg mb-4" maxlength="120" placeholder="Tu dirección de entrega..." />
+                    <button id="confirmAddressBtn" class="add-btn w-full text-lg">Confirmar dirección y enviar pedido</button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 py-6 border-t border-accent2/40 bg-mainwhite/80 rounded-b-2xl shadow-inner">
+            <p class="text-center text-mainred font-semibold font-[Poppins] text-lg tracking-wide">
+                © 2025 <span class="font-bold text-accent" style="letter-spacing: 0.05em;">Abarrotes Rayaka Raya</span>. Todos los derechos reservados.<br>
+                <span class="text-xs text-gray-500">Desarrollado por Russiel Russceky López Martinez</span>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // --- Botón de compartir catálogo (Web Share API o copiar enlace) ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualizar el meta og:url con la URL real del sitio
+            var metaOgUrl = document.getElementById('metaOgUrl');
+            if (metaOgUrl) metaOgUrl.setAttribute('content', window.location.href);
+
+            const shareBtn = document.getElementById('shareBtn');
+            if (shareBtn) {
+                shareBtn.onclick = function() {
+                    // Usar la URL real del sitio (incluyendo hash y query)
+                    let shareUrl = window.location.href;
+                    // Si está en localhost, sugerir al usuario que suba el sitio a un hosting para compartirlo públicamente
+                    if (shareUrl.includes('localhost') || shareUrl.includes('127.0.0.1')) {
+                        alert('Para compartir tu catálogo y que funcione desde el móvil o redes sociales, debes subirlo a un hosting o servidor accesible públicamente. Actualmente solo tú puedes verlo en tu PC.');
+                        return;
+                    }
+                    const shareTitle = 'Catálogo de Abarrotes Rayaka Raya';
+                    const shareText = '¡Haz tu pedido en línea! Mira el catálogo profesional de abarrotes Rayaka Raya.';
+                    // Si está disponible la Web Share API
+                    if (navigator.share) {
+                        navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+                        return;
+                    }
+                    // Si NO está disponible, mostrar menú personalizado para compartir en redes
+                    let menu = document.getElementById('customShareMenu');
+                    if (!menu) {
+                        menu = document.createElement('div');
+                        menu.id = 'customShareMenu';
+                        menu.style.position = 'fixed';
+                        menu.style.top = (shareBtn.getBoundingClientRect().bottom + window.scrollY + 8) + 'px';
+                        menu.style.left = (shareBtn.getBoundingClientRect().left + window.scrollX) + 'px';
+                        menu.style.background = '#fff';
+                        menu.style.border = '1.5px solid #ff80ab';
+                        menu.style.borderRadius = '1rem';
+                        menu.style.boxShadow = '0 4px 24px #d32f2f33';
+                        menu.style.padding = '1rem';
+                        menu.style.zIndex = 9999;
+                        menu.innerHTML = `
+                            <div style="font-weight:600;color:#ad1457;margin-bottom:0.5rem;">Compartir en:</div>
+                            <button id="shareCopyBtn" style="display:block;width:100%;margin-bottom:0.5rem;background:#ff80ab;color:#fff;font-weight:700;border:none;border-radius:0.5rem;padding:0.4rem 0;">Copiar enlace</button>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}" target="_blank" style="display:block;margin-bottom:0.5rem;background:#4267B2;color:#fff;font-weight:700;border:none;border-radius:0.5rem;padding:0.4rem 0;text-align:center;text-decoration:none;">Facebook</a>
+                            <a href="https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}" target="_blank" style="display:block;margin-bottom:0.5rem;background:#25d366;color:#fff;font-weight:700;border:none;border-radius:0.5rem;padding:0.4rem 0;text-align:center;text-decoration:none;">WhatsApp</a>
+                            <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}" target="_blank" style="display:block;margin-bottom:0.5rem;background:#1da1f2;color:#fff;font-weight:700;border:none;border-radius:0.5rem;padding:0.4rem 0;text-align:center;text-decoration:none;">Twitter/X</a>
+                            <button id="closeShareMenuBtn" style="display:block;width:100%;background:#e53935;color:#fff;font-weight:700;border:none;border-radius:0.5rem;padding:0.4rem 0;margin-top:0.5rem;">Cerrar</button>
+                        `;
+                        document.body.appendChild(menu);
+                        // Copiar enlace
+                        document.getElementById('shareCopyBtn').onclick = function() {
+                            navigator.clipboard.writeText(shareUrl).then(function() {
+                                document.getElementById('shareCopyBtn').textContent = '¡Enlace copiado!';
+                                setTimeout(()=>{ document.getElementById('shareCopyBtn').textContent = 'Copiar enlace'; }, 2000);
+                            });
+                        };
+                        // Cerrar menú
+                        document.getElementById('closeShareMenuBtn').onclick = function() {
+                            menu.remove();
+                        };
+                        // Cerrar si se hace clic fuera
+                        setTimeout(()=>{
+                            document.addEventListener('mousedown', function handler(e) {
+                                if (!menu.contains(e.target) && e.target !== shareBtn) {
+                                    menu.remove();
+                                    document.removeEventListener('mousedown', handler);
+                                }
+                            });
+                        }, 100);
+                    }
+                };
+            }
+        });
+        // ...existing code...
+        let products = JSON.parse(localStorage.getItem('products')) || [
+            {
+                id: 1,
+                name: "Arroz Extra",
+                category: "alimentos",
+                description: "Arroz de grano largo, paquete de 1kg",
+                price: 1.99,
+                discount: 10,
+                image: ""
+            },
+            {
+                id: 2,
+                name: "Aceite Vegetal",
+                category: "alimentos",
+                description: "Aceite de soya 900ml, botella plástica",
+                price: 3.49,
+                discount: 0,
+                image: ""
+            },
+            {
+                id: 3,
+                name: "Jabón de Ropa",
+                category: "limpieza",
+                description: "Jabón en polvo para lavadora, paquete de 1kg",
+                price: 4.99,
+                discount: 15,
+                image: ""
+            },
+            {
+                id: 4,
+                name: "Refresco de Cola",
+                category: "bebidas",
+                description: "Refresco en lata de 355ml",
+                price: 0.85,
+                discount: 5,
+                image: ""
+            }
+        ];
+
+        // Carrito
+        let cart = [];
+        const cartSection = document.getElementById('cartSection');
+        const cartList = document.getElementById('cartList');
+        const cartTotal = document.getElementById('cartTotal');
+        const sendCartBtn = document.getElementById('sendCartBtn');
+        const closeCartBtn = document.getElementById('closeCartBtn');
+        const openCartBtn = document.getElementById('openCartBtn');
+        const cartCount = document.getElementById('cartCount');
+
+        // Elementos del DOM
+        const productGrid = document.getElementById('productGrid');
+        const noProductsMessage = document.getElementById('noProductsMessage');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilters = document.querySelectorAll('.category-filter');
+        const openModalBtn = document.getElementById('openModalBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalBg = document.getElementById('modalBg');
+        const addProductForm = document.getElementById('addProductForm');
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+            categoryFilters[0].classList.add('bg-mainred', 'text-mainwhite');
+            categoryFilters[0].classList.remove('bg-accent2', 'hover:bg-mainred', 'hover:text-mainwhite', 'text-mainred');
+        });
+
+        // Modal abrir/cerrar
+        openModalBtn.addEventListener('click', () => {
+            modalBg.classList.remove('hidden');
+        });
+        closeModalBtn.addEventListener('click', () => {
+            modalBg.classList.add('hidden');
+            addProductForm.reset();
+        });
+        modalBg.addEventListener('click', (e) => {
+            if (e.target === modalBg) {
+                modalBg.classList.add('hidden');
+                addProductForm.reset();
+            }
+        });
+
+        // Reemplaza el submit del formulario de agregar producto por una función robusta y restaurable
+        function defaultAddProductSubmit(e) {
+            e.preventDefault();
+            if (!isAdmin) {
+                alert('Solo el administrador puede agregar productos.');
+                return;
+            }
+            const name = document.getElementById('productName').value.trim();
+            const description = document.getElementById('productDesc').value.trim();
+            const category = document.getElementById('productCategory').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const discount = parseInt(document.getElementById('productDiscount').value) || 0;
+            const imageUrl = document.getElementById('productImage').value.trim();
+            const imageFileInput = document.getElementById('productImageFile');
+            const imageFile = imageFileInput && imageFileInput.files && imageFileInput.files[0] ? imageFileInput.files[0] : null;
+            if (!name || !description || !category || isNaN(price)) return;
+            function saveProduct(imageDataUrl) {
+                const newProduct = {
+                    id: Date.now(),
+                    name,
+                    description,
+                    category,
+                    price,
+                    discount,
+                    image: imageDataUrl || imageUrl
+                };
+                products.push(newProduct);
+                if (products.length > 2000) {
+                    products = products.slice(products.length - 2000);
+                }
+                try {
+                    localStorage.setItem('products', JSON.stringify(products));
+                } catch (err) {
+                    alert('¡Error! El almacenamiento local está lleno. Elimina productos antiguos para continuar.');
+                }
+                renderProducts(products);
+                modalBg.classList.add('hidden');
+                addProductForm.reset();
+                addProductForm.onsubmit = defaultAddProductSubmit;
+            }
+            if (imageFile) {
+                if (imageFile.size > 1024 * 1024) {
+                    alert('La imagen local no debe superar 1MB.');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    saveProduct(evt.target.result);
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                saveProduct();
+            }
+        }
+        addProductForm.onsubmit = defaultAddProductSubmit;
+
+        // Funcionalidad de búsqueda
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) || 
+                product.description.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filteredProducts);
+        });
+
+        // Filtro de categoría
+        categoryFilters.forEach(button => {
+            button.addEventListener('click', () => {
+                categoryFilters.forEach(btn => {
+                    btn.classList.remove('bg-mainred', 'text-mainwhite');
+                    btn.classList.add('bg-accent2', 'hover:bg-mainred', 'hover:text-mainwhite', 'text-mainred');
+                });
+                button.classList.add('bg-mainred', 'text-mainwhite');
+                button.classList.remove('bg-accent2', 'hover:bg-mainred', 'hover:text-mainwhite', 'text-mainred');
+                const category = button.textContent.trim().toLowerCase();
+                let filteredProducts = [];
+                if (category === 'todos') {
+                    filteredProducts = products;
+                } else {
+                    filteredProducts = products.filter(product => 
+                        product.category === category.replace(' ', '-')
+                    );
+                }
+                renderProducts(filteredProducts);
+            });
+        });
+
+        // Renderizar productos SOLO exhibición y WhatsApp
+        function renderProducts(productsToRender) {
+            if (productsToRender.length === 0) {
+                noProductsMessage.classList.remove('hidden');
+                productGrid.innerHTML = '';
+                productGrid.appendChild(noProductsMessage);
+                return;
+            }
+            noProductsMessage.classList.add('hidden');
+            productGrid.innerHTML = '';
+            productsToRender.forEach(product => {
+                const discountAmount = product.price * (product.discount / 100);
+                const finalPrice = product.price - discountAmount;
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card relative flex flex-col';
+                if (product.discount > 0) {
+                    productCard.innerHTML += `
+                        <div class="discount-badge">${product.discount}% OFF</div>
+                    `;
+                }
+                let imgSrc = product.image;
+                if (!imgSrc) {
+                    imgSrc = 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9cc49515-e5db-46da-97de-394eab4e3f4f.png' + encodeURIComponent(product.name);
+                }
+                productCard.innerHTML += `
+                    <div class="h-48 bg-accent2 flex items-center justify-center overflow-hidden">
+                        <img src="${imgSrc}" alt="${product.name} - ${product.description}" class="w-full h-full object-contain p-4 transition-transform duration-300 hover:scale-105">
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-semibold text-lg text-mainred mb-1">${product.name}</h3>
+                            <p class="text-accent text-sm mb-3">${product.description}</p>
+                        </div>
+                        <div class="flex items-center justify-between mt-2 gap-2">
+                            <div>
+                                ${product.discount > 0 ? `
+                                    <span class="text-darkred text-sm line-through mr-2">C$${product.price.toFixed(2)}</span>
+                                    <span class="text-mainred font-bold">C$${finalPrice.toFixed(2)}</span>
+                                `: `
+                                    <span class="text-mainred font-bold">C$${product.price.toFixed(2)}</span>
+                                `}
+                            </div>
+                            <button class="add-to-cart-btn add-btn px-3 py-1 text-xs" data-id="${product.id}">Agregar</button>
+                            ${isAdmin ? `
+                                <button class="edit-product-btn add-btn px-2 py-1 text-xs bg-accent2 ml-1" data-id="${product.id}" style="background:linear-gradient(90deg,#ff80ab 0%,#c51162 100%);color:#fff;">Editar</button>
+                                <button class="delete-product-btn add-btn px-2 py-1 text-xs bg-mainred ml-1" data-id="${product.id}" style="background:linear-gradient(90deg,#e53935 0%,#c51162 100%);color:#fff;">Eliminar</button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                productGrid.appendChild(productCard);
+            });
+            // Asignar eventos a los botones de agregar
+            setTimeout(() => {
+                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                    btn.onclick = (e) => {
+                        const id = parseInt(btn.getAttribute('data-id'));
+                        const prod = products.find(p => p.id === id);
+                        if (!prod) return;
+                        const cartItem = cart.find(item => item.id === id);
+                        if (cartItem) {
+                            cartItem.qty += 1;
+                        } else {
+                            cart.push({ ...prod, qty: 1 });
+                        }
+                        updateCartCount();
+                    };
+                });
+                if (isAdmin) {
+                    document.querySelectorAll('.edit-product-btn').forEach(btn => {
+                        btn.onclick = function() {
+                            const id = parseInt(btn.getAttribute('data-id'));
+                            const prod = products.find(p => p.id === id);
+                            if (!prod) return;
+                            document.getElementById('productName').value = prod.name;
+                            document.getElementById('productDesc').value = prod.description;
+                            document.getElementById('productCategory').value = prod.category;
+                            document.getElementById('productPrice').value = prod.price;
+                            document.getElementById('productDiscount').value = prod.discount;
+                            document.getElementById('productImage').value = prod.image || '';
+                            document.getElementById('modalBg').classList.remove('hidden');
+                            addProductForm.onsubmit = function(e) {
+                                e.preventDefault();
+                                if (!isAdmin) {
+                                    alert('Solo el administrador puede editar productos.');
+                                    return;
+                                }
+                                prod.name = document.getElementById('productName').value.trim();
+                                prod.description = document.getElementById('productDesc').value.trim();
+                                prod.category = document.getElementById('productCategory').value;
+                                prod.price = parseFloat(document.getElementById('productPrice').value);
+                                prod.discount = parseInt(document.getElementById('productDiscount').value) || 0;
+                                prod.image = document.getElementById('productImage').value.trim();
+                                try { localStorage.setItem('products', JSON.stringify(products)); } catch(e){}
+                                renderProducts(products);
+                                document.getElementById('modalBg').classList.add('hidden');
+                                addProductForm.reset();
+                                addProductForm.onsubmit = defaultAddProductSubmit;
+                            };
+                        };
+                    });
+                    document.querySelectorAll('.delete-product-btn').forEach(btn => {
+                        btn.onclick = function() {
+                            const id = parseInt(btn.getAttribute('data-id'));
+                            if (!isAdmin) {
+                                alert('Solo el administrador puede eliminar productos.');
+                                return;
+                            }
+                            if (confirm('¿Seguro que deseas eliminar este producto?')) {
+                                products = products.filter(p => p.id !== id);
+                                try { localStorage.setItem('products', JSON.stringify(products)); } catch(e){}
+                                renderProducts(products);
+                            }
+                        };
+                    });
+                }
+            }, 0);
+        }
+
+        // Asegura que el contador del carrito siempre se actualice
+        function updateCartCount() {
+            cartCount.textContent = cart.reduce((acc, item) => acc + item.qty, 0);
+        }
+
+        function showCart() {
+            if (cart.length === 0) {
+                cartSection.classList.add('hidden');
+                return;
+            }
+            cartSection.classList.remove('hidden');
+            cartList.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, idx) => {
+                const discountAmount = item.price * (item.discount / 100);
+                const finalPrice = item.price - discountAmount;
+                const subtotal = finalPrice * item.qty;
+                total += subtotal;
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between gap-2 border-b border-accent2/40 py-1';
+                row.innerHTML = `
+                    <div class="flex-1">
+                        <span class="font-semibold text-mainred">${item.name}</span>
+                        <span class="text-xs text-accent2 ml-1">x${item.qty}</span>
+                        <span class="block text-xs text-gray-500">C$${finalPrice.toFixed(2)} c/u</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button class="remove-item-btn text-mainred text-lg font-bold px-2" data-idx="${idx}" title="Quitar">&times;</button>
+                        <button class="qty-btn px-2 text-mainred text-lg font-bold" data-idx="${idx}" data-action="dec">-</button>
+                        <span class="font-bold">C$${subtotal.toFixed(2)}</span>
+                        <button class="qty-btn px-2 text-mainred text-lg font-bold" data-idx="${idx}" data-action="inc">+</button>
+                    </div>
+                `;
+                cartList.appendChild(row);
+            });
+            cartTotal.textContent = `C$${total.toFixed(2)}`;
+            // Quitar producto
+            cartList.querySelectorAll('.remove-item-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.getAttribute('data-idx'));
+                    cart.splice(idx, 1);
+                    updateCartCount();
+                    showCart();
+                });
+            });
+            // Cambiar cantidad
+            cartList.querySelectorAll('.qty-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.getAttribute('data-idx'));
+                    const action = btn.getAttribute('data-action');
+                    if (action === 'inc') cart[idx].qty += 1;
+                    if (action === 'dec' && cart[idx].qty > 1) cart[idx].qty -= 1;
+                    updateCartCount();
+                    showCart();
+                });
+            });
+        }
+
+        // --- Lógica robusta para dirección de entrega y WhatsApp ---
+        (function() {
+            // Referencias a elementos del modal de dirección
+            const addressModalBg = document.getElementById('addressModalBg');
+            const closeAddressModalBtn = document.getElementById('closeAddressModalBtn');
+            const confirmAddressBtn = document.getElementById('confirmAddressBtn');
+            const addressInputModal = document.getElementById('addressInputModal');
+            let pendingSendOrder = null;
+
+            // Mostrar modal de dirección
+            function showAddressModal(onConfirm) {
+                addressModalBg.classList.remove('hidden');
+                addressInputModal.value = '';
+                addressInputModal.classList.remove('border-mainred');
+                addressInputModal.placeholder = 'Tu dirección de entrega...';
+                // Campo de teléfono (limpia si ya existe)
+                let phoneInput = document.getElementById('phoneInputModal');
+                if (phoneInput) phoneInput.remove();
+                phoneInput = document.createElement('input');
+                phoneInput.id = 'phoneInputModal';
+                phoneInput.type = 'tel';
+                phoneInput.className = 'input-field border-2 border-accent2 focus:border-mainred text-lg mb-4';
+                phoneInput.maxLength = 15;
+                phoneInput.placeholder = 'Tu número de teléfono (ej: 8888-8888)';
+                phoneInput.style.marginTop = '0.5rem';
+                addressInputModal.parentNode.insertBefore(phoneInput, addressInputModal.nextSibling);
+                setTimeout(() => addressInputModal.focus(), 100);
+                pendingSendOrder = onConfirm;
+            }
+
+            // Cerrar modal
+            function closeAddressModal() {
+                addressModalBg.classList.add('hidden');
+                pendingSendOrder = null;
+            }
+
+            // Confirmar dirección y teléfono
+            function handleConfirmAddress() {
+                const address = addressInputModal.value.trim();
+                const phoneInput = document.getElementById('phoneInputModal');
+                const phone = phoneInput ? phoneInput.value.trim() : '';
+                const phoneRegex = /^\d{4}-?\d{4}$/;
+                let valid = true;
+                if (!address) {
+                    addressInputModal.classList.add('border-mainred');
+                    addressInputModal.placeholder = 'Por favor, escribe una dirección';
+                    addressInputModal.focus();
+                    valid = false;
+                } else {
+                    addressInputModal.classList.remove('border-mainred');
+                }
+                if (!phone || !phoneRegex.test(phone)) {
+                    if (phoneInput) {
+                        phoneInput.classList.add('border-mainred');
+                        phoneInput.placeholder = 'Número inválido. Ej: 8888-8888';
+                        phoneInput.focus();
+                    }
+                    valid = false;
+                } else if (phoneInput) {
+                    phoneInput.classList.remove('border-mainred');
+                }
+                if (!valid) return;
+                // Enviar pedido y cerrar modal en orden correcto
+                if (typeof pendingSendOrder === 'function') {
+                    pendingSendOrder(address, phone);
+                }
+                closeAddressModal();
+            }
+
+            // Eventos del modal
+            if (closeAddressModalBtn) closeAddressModalBtn.onclick = closeAddressModal;
+            if (addressModalBg) addressModalBg.onclick = (e) => { if (e.target === addressModalBg) closeAddressModal(); };
+            if (confirmAddressBtn) confirmAddressBtn.onclick = handleConfirmAddress;
+            if (addressInputModal) addressInputModal.onkeydown = (e) => { if (e.key === 'Enter') handleConfirmAddress(); };
+            document.addEventListener('keydown', function(e) {
+                if (document.getElementById('phoneInputModal') && document.activeElement === document.getElementById('phoneInputModal') && e.key === 'Enter') {
+                    handleConfirmAddress();
+                }
+            });
+
+            // Lógica de envío de pedido por WhatsApp
+            sendCartBtn.addEventListener('click', () => {
+                if (cart.length === 0) return;
+                let clientAddress = document.getElementById('clientAddress') ? document.getElementById('clientAddress').value.trim() : '';
+                let clientPhone = '';
+                if (!clientAddress) {
+                    showAddressModal(function(address, phone) {
+                        enviarPedidoWhatsApp(address, phone);
+                    });
+                    return;
+                }
+                // Si ya hay dirección, pedir teléfono en modal para robustez
+                showAddressModal(function(address, phone) {
+                    enviarPedidoWhatsApp(clientAddress, phone);
+                });
+            });
+        })();
+        // --- Fin lógica robusta dirección ---
+
+        function enviarPedidoWhatsApp(clientAddress, clientPhone) {
+            if (!Array.isArray(cart) || cart.length === 0) {
+                alert('El carrito está vacío. Agrega productos antes de enviar el pedido.');
+                return;
+            }
+            let msg = `*🧾 FACTURA DE PEDIDO - Abarrotes Rayaka Raya*\n\n`;
+            msg += `*Producto* | *P. Unitario* | *Cantidad* | *Subtotal*\n`;
+            msg += `---------------------------------------------\n`;
+            let total = 0;
+            cart.forEach(item => {
+                const discountAmount = item.price * (item.discount / 100);
+                const finalPrice = item.price - discountAmount;
+                const subtotal = finalPrice * item.qty;
+                total += subtotal;
+                msg += `• ${item.name} | C$${finalPrice.toFixed(2)} | x${item.qty} | C$${subtotal.toFixed(2)}`;
+                if (item.discount > 0) msg += ` (${item.discount}% desc)`;
+                msg += `\n`;
+            });
+            msg += `---------------------------------------------\n`;
+            msg += `*TOTAL A PAGAR: C$${total.toFixed(2)}*\n`;
+            msg += `\n*Dirección de entrega:* ${clientAddress}`;
+            if (clientPhone) msg += `\n*Teléfono de contacto:* ${clientPhone}`;
+            msg += `\n\n_Enviado desde el catálogo web_`;
+            // Limpiar carrito y cerrar panel ANTES de abrir WhatsApp
+            cart = [];
+            updateCartCount();
+            cartSection.classList.add('hidden');
+            cartList.innerHTML = '';
+            cartTotal.textContent = 'C$0.00';
+            try { localStorage.setItem('cart', JSON.stringify([])); } catch(e){}
+            // Abrir WhatsApp usando encodeURIComponent correctamente
+            const url = `https://wa.me/50557021915?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
+        // Evento para abrir el carrito (asegura que siempre funcione)
+        openCartBtn.addEventListener('click', () => {
+            showCart();
+        });
+        // Evento para cerrar el carrito
+        closeCartBtn.addEventListener('click', () => {
+            cartSection.classList.add('hidden');
+        });
+        // Limpiar carrito visual y en memoria al cargar (opcional, robustez)
+        if (localStorage.getItem('cart')) {
+            try { cart = JSON.parse(localStorage.getItem('cart')) || []; } catch(e){ cart = []; }
+            updateCartCount();
+        }
+    </script>
+</body>
+</html>
