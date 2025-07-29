@@ -2601,7 +2601,7 @@
     // Función para actualizar stock en Supabase
     async function updateStockInSupabase() {
       try {
-        const backendUrl = 'https://catalogo-rkr.onrender.com';
+        const backendUrl = 'https://catalogo-rkr-backend.onrender.com';
         
         // Procesar cada item del carrito
         for (const item of cart) {
@@ -2781,7 +2781,7 @@
       try {
         // Intentar cargar desde backend primero
         console.log('Cargando productos desde Supabase...');
-        const backendUrl = 'https://catalogo-rkr.onrender.com'; // URL del backend desplegado
+        const backendUrl = 'https://catalogo-rkr-backend.onrender.com'; // URL del backend desplegado
         const response = await fetch(`${backendUrl}/api/productos`);
         
         if (response.ok) {
@@ -2872,7 +2872,7 @@
       };
       
       try {
-        const backendUrl = 'https://catalogo-rkr.onrender.com';
+        const backendUrl = 'https://catalogo-rkr-backend.onrender.com';
         const response = await fetch(`${backendUrl}/api/productos`, {
           method: 'POST',
           headers: {
@@ -2931,7 +2931,7 @@
       }
       
       try {
-        const backendUrl = 'https://catalogo-rkr.onrender.com';
+        const backendUrl = 'https://catalogo-rkr-backend.onrender.com';
         const response = await fetch(`${backendUrl}/api/productos/${productId}`, {
           method: 'DELETE',
           headers: {
@@ -2973,7 +2973,7 @@
       };
       
       try {
-        const backendUrl = 'https://catalogo-rkr.onrender.com';
+        const backendUrl = 'https://catalogo-rkr-backend.onrender.com';
         const response = await fetch(`${backendUrl}/api/productos/${productId}`, {
           method: 'PUT',
           headers: {
@@ -3006,7 +3006,7 @@
       // Verificar cambios cada 10 segundos
       updateInterval = setInterval(async () => {
         try {
-          const backendUrl = 'https://catalogo-rkr.onrender.com';
+          const backendUrl = 'https://catalogo-rkr-backend.onrender.com';
           const response = await fetch(`${backendUrl}/api/productos`);
           
           if (response.ok) {

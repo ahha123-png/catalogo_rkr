@@ -15,8 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 // Configuración de Supabase
-const supabaseUrl = 'https://zgqnakgtbabflfowysts.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpncW5ha2d0YmFiZmxmb3d5c3RzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM4MjE3NzksImV4cCI6MjA2OTM5Nzc3OX0.dZmP2R__IoZ00f7U3CLNWOImeaUvv8L-bFLmNbgJ-lQ';
+const supabaseUrl = 'https://cekwdsvpmscukubrcuewh.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNla3dkc3ZwbXNja3VicmN1ZXdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM4MjYxODcsImV4cCI6MjA2OTQwMjE4N30.E00eK-y_gnBHP0yNoSBTz70suimBFuPKZvMCg2Q-k1Y';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Usuario admin
